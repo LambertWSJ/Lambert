@@ -33,7 +33,12 @@ public class Main extends Application  {
 
         button = new Button("Click Me");
 
-        button.setOnAction(event -> AlertBox.display("Alert","Hello world"));
+
+        button.setOnAction(event -> {
+            boolean result = ConfirmationBox.display("Title of Window","Are you sure you want to send naked pics?");
+            System.out.println(result);
+
+        });
 
         StackPane layout = new StackPane();
         layout.getChildren().add(button);
