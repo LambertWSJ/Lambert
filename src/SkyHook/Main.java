@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 
 
-public class Main extends Application implements EventHandler<ActionEvent> {
+public class Main extends Application  {
 
     Button btn;
 
@@ -28,7 +28,21 @@ public class Main extends Application implements EventHandler<ActionEvent> {
         btn = new Button();
         btn.setText("ClickMe");
 
-        btn.setOnAction(this);
+
+
+        // Anonymous class
+        btn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                System.out.println("You click again");
+            }
+        });
+
+        // Lambda expression
+        btn.setOnAction(e -> {
+            System.out.println("Clicked ");
+        });
+
 
         StackPane layout = new StackPane();
         layout.getChildren().add(btn);
@@ -41,11 +55,5 @@ public class Main extends Application implements EventHandler<ActionEvent> {
 
     }
 
-    @Override
-    public void handle(ActionEvent event) {
-        if(event.getSource() == this.btn){
-            System.out.println("You Click this button");
-        }
 
-    }
 }
