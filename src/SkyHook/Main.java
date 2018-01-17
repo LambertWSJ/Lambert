@@ -35,6 +35,7 @@ public class Main extends Application  {
 
 
         button.setOnAction(event -> {
+            // use a variable to store data
             boolean result = ConfirmationBox.display("Title of Window","Are you sure you want to send naked pics?");
             System.out.println(result);
 
