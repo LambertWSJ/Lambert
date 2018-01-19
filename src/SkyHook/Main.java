@@ -1,17 +1,13 @@
 package SkyHook;
 
+import Components.ConfirmationBox;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 // import components
-import Components.*;
 
 
 public class Main extends Application  {
@@ -23,33 +19,48 @@ public class Main extends Application  {
     public static void main(String[] args) {
         launch(args);
 
+
     }
 
 
     @Override
     public void start(Stage primaryStage) throws Exception{
         window = primaryStage;
-        window.setTitle("JavaFx");
+        window.setTitle("SkyHook");
 
-        button = new Button("Click Me");
+        // 發出關閉事件的Request
+        window.setOnCloseRequest(event -> {
+            // 阻止Request事件傳播，以免選了NO還是繼續執行Request
+            event.consume();
 
+            // 詢問是否要關閉
+            closeProgram();
+        });
 
-        button.setOnAction(event -> {
-            // use a variable to store data
-            boolean result = ConfirmationBox.display("Title of Window","Are you sure you want to send naked pics?");
-            System.out.println(result);
+        button = new Button("Close program");
+        button.setOnAction(event->{
+
+            this.closeProgram();
 
         });
 
+
+
         StackPane layout = new StackPane();
         layout.getChildren().add(button);
-        Scene scene = new Scene(layout,500,600);
+
+        Scene scene = new Scene(layout,450,450);
         window.setScene(scene);
         window.show();
 
-
-
     }
 
+    private void closeProgram(){
+        Boolean answer = ConfirmationBox.display("Title","Sure you want to exit?");
+
+        if(answer)
+            window.close();
+
+    }
 
 }
