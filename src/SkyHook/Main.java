@@ -31,45 +31,43 @@ public class Main extends Application  {
         window = primaryStage;
         window.setTitle("SkyHook");
 
-        GridPane grid = new GridPane();
-        grid.setPadding(new Insets(10,10,10,10));
-        grid.setVgap(8);
-        grid.setHgap(10);
 
 
-        // name
-        Label nameLabel = new Label("Username: ");
-        GridPane.setConstraints(nameLabel, 0, 0);
+        TextField nameInput = new TextField();
+        button = new Button("Click me");
+        button.setOnAction(event -> {
+            isInt(nameInput,nameInput.getText());
 
-        TextField nameInput = new TextField("Bucky");
-        GridPane.setConstraints(nameInput, 1, 0);
 
-        // password
-        Label passLabel = new Label("Password: ");
-        GridPane.setConstraints(nameLabel, 0, 1);
-
-        TextField passInput = new TextField();
-        passInput.setPromptText("password"); // just like placeholder
-        GridPane.setConstraints(passInput, 1, 1);
-
-        // login
-        Button loginButton = new Button("Log in");
-        GridPane.setConstraints(loginButton,1,2);
-
-        grid.getChildren().addAll(nameLabel,nameInput,passLabel,passInput,loginButton);
+        });
 
 
 
 
+        // Layout
+        VBox layout = new VBox(10);
+        layout.setPadding(new Insets(20,20,20,20));
+        layout.getChildren().addAll(nameInput,button);
 
 
-        Scene scene = new Scene(grid,300,350);
+        Scene scene = new Scene(layout,300,350);
         window.setScene(scene);
         window.show();
 
 
     }
 
+    private boolean isInt(TextField input,String message){
+
+        try {
+            int age = Integer.parseInt(input.getText());
+            System.out.println("User is: " + age);
+            return true;
+        }catch (NumberFormatException e){
+            System.out.println("Error: \"" + message + "\" is not number");
+            return false;
+        }
+    }
 
 
 }
