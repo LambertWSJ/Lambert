@@ -42,23 +42,15 @@ public class Main extends Application  {
         ChoiceBox<String> choiceBox = new ChoiceBox<String>();
 
         // getItems returns the observableList object which you add items to
-        choiceBox.getItems().add("Apple");
-        choiceBox.getItems().add("Bananas");
-        choiceBox.getItems().add("Papaya");
-        choiceBox.getItems().add("PieApple");
+        String[] fruits = {"Apple","Bananas","Papaya","PieApple"};
+        choiceBox.getItems().addAll(fruits);
 
-//        其他寫法
-//        choiceBox.getItems().addAll("Apple","Bananas","Papaya","PieApple");
-//        String[] fruits = {"Apple","Bananas","Papaya","PieApple"};
-//        choiceBox.getItems().addAll(fruits);
-
-        // Set default value
-        choiceBox.setValue("Apple");
-
-        button.setOnAction(event -> {
-            getChoice(choiceBox);
-        });
-
+        // Listen for selection changes
+        choiceBox.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((e,oldValue,newValue)->{
+                    System.out.println(newValue);
+                });
 
 
         // Layout
@@ -73,10 +65,6 @@ public class Main extends Application  {
 
     }
 
-    private void getChoice(ChoiceBox<String> choiceBox) {
-        String food = choiceBox.getValue();
-        System.out.println(food);
-    }
 
 
 }
