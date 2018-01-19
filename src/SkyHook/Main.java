@@ -2,12 +2,12 @@ package SkyHook;
 
 import Components.ConfirmationBox;
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 // import components
@@ -28,31 +28,42 @@ public class Main extends Application  {
     @Override
     public void start(Stage primaryStage) throws Exception{
 
-
-        // 水平清單
-        HBox top_menu = new HBox();
-        Button file_button = new Button("File");
-        Button edit_button = new Button("Edit");
-        Button view_button = new Button("View");
-        top_menu.getChildren().addAll(file_button,edit_button,view_button);
-
-        // 垂直清單
-        VBox left_menu = new VBox();
-        Button btnD = new Button("D");
-        Button btnE = new Button("E");
-        Button btnF = new Button("F");
-        left_menu.getChildren().addAll(btnD,btnE,btnF);
-
-
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(top_menu);
-        borderPane.setLeft(left_menu);
-
-        Scene scene = new Scene(borderPane,450,500);
-
-
         window = primaryStage;
         window.setTitle("SkyHook");
+
+        GridPane grid = new GridPane();
+        grid.setPadding(new Insets(10,10,10,10));
+        grid.setVgap(8);
+        grid.setHgap(10);
+
+
+        // name
+        Label nameLabel = new Label("Username: ");
+        GridPane.setConstraints(nameLabel, 0, 0);
+
+        TextField nameInput = new TextField("Bucky");
+        GridPane.setConstraints(nameInput, 1, 0);
+
+        // password
+        Label passLabel = new Label("Password: ");
+        GridPane.setConstraints(nameLabel, 0, 1);
+
+        TextField passInput = new TextField();
+        passInput.setPromptText("password"); // just like placeholder
+        GridPane.setConstraints(passInput, 1, 1);
+
+        // login
+        Button loginButton = new Button("Log in");
+        GridPane.setConstraints(loginButton,1,2);
+
+        grid.getChildren().addAll(nameLabel,nameInput,passLabel,passInput,loginButton);
+
+
+
+
+
+
+        Scene scene = new Scene(grid,300,350);
         window.setScene(scene);
         window.show();
 
