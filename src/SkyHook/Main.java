@@ -2,6 +2,7 @@ package SkyHook;
 
 import Components.ConfirmationBox;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -11,9 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
-import java.awt.*;
-
-// import components
+import java.util.Stack;
 
 
 public class Main extends Application  {
@@ -21,6 +20,7 @@ public class Main extends Application  {
     Stage window;
     Scene scene;
     Button button;
+    TreeView<String> tree;
 
     public static void main(String[] args) {
         launch(args);
@@ -34,34 +34,54 @@ public class Main extends Application  {
         window = primaryStage;
         window.setTitle("SkyHook");
 
+        button = new Button("Submit");
+
+        String[] movie_list = {"Iron Man","Titanic","Super Man","Transformer"};
+
+        TreeItem<String> root, bucky, megan;
+
+        // root
+        root = new TreeItem<>();
+        root.setExpanded(true);
+
+        // bucky
+        bucky = makeBranch("Bucky",root);
+        for (int i = 0; i < movie_list.length; i++) {
+            makeBranch(movie_list[i],bucky);
+        }
+
+        // megan
+        megan = makeBranch("Megan",root);
+        makeBranch("Glitter",megan);
+        makeBranch("Make up",megan);
 
 
 
-        button = new Button("Click Me");
-
-        ChoiceBox<String> choiceBox = new ChoiceBox<String>();
-
-        // getItems returns the observableList object which you add items to
-        String[] fruits = {"Apple","Bananas","Papaya","PieApple"};
-        choiceBox.getItems().addAll(fruits);
-
-        // Listen for selection changes
-        choiceBox.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((e,oldValue,newValue)->{
-                    System.out.println(newValue);
-                });
+        // tree
+        tree = new TreeView<>(root);
+        tree.setShowRoot(false);
+        tree.getSelectionModel().selectedItemProperty()
+            .addListener((v,old_value,new_value) -> {
+                if(new_value != null)
+                    System.out.println(new_value.getValue());
+            });
 
 
         // Layout
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(20,20,20,20));
-        layout.getChildren().addAll(choiceBox,button);
-
+        StackPane layout = new StackPane();
+        layout.getChildren().add(tree);
+        // Scene
         scene = new Scene(layout,300,350);
         window.setScene(scene);
         window.show();
+    }
 
+    private TreeItem makeBranch(String title,TreeItem<String> parent){
+        TreeItem<String> item = new TreeItem<>(title);
+        item.setExpanded(true);
+        parent.getChildren().add(item);
+
+        return item;
 
     }
 
