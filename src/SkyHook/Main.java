@@ -2,6 +2,7 @@ package SkyHook;
 
 import Components.ConfirmationBox;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -9,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -20,13 +22,14 @@ public class Main extends Application  {
     Stage window;
     Scene scene;
     Button button;
-    TreeView<String> tree;
-
+    TableView<Product> table;
     public static void main(String[] args) {
         launch(args);
-
-
     }
+
+
+
+
 
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -34,56 +37,49 @@ public class Main extends Application  {
         window = primaryStage;
         window.setTitle("SkyHook");
 
-        button = new Button("Submit");
+        // Name column
+        TableColumn<Product, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setMinWidth(200);
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        String[] movie_list = {"Iron Man","Titanic","Super Man","Transformer"};
+        // Price column
+        TableColumn<Product, Double> priceColumn = new TableColumn<>("Price");
+        priceColumn.setMinWidth(200);
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        TreeItem<String> root, bucky, megan;
+        // Quantity column
+        TableColumn<Product, String> quantityColumn = new TableColumn<>("Quantity");
+        quantityColumn.setMinWidth(200);
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        // root
-        root = new TreeItem<>();
-        root.setExpanded(true);
+        table = new TableView<>();
+        table.setItems(getProduct());
+        table.getColumns().addAll(nameColumn,priceColumn,quantityColumn);
 
-        // bucky
-        bucky = makeBranch("Bucky",root);
-        for (int i = 0; i < movie_list.length; i++) {
-            makeBranch(movie_list[i],bucky);
-        }
-
-        // megan
-        megan = makeBranch("Megan",root);
-        makeBranch("Glitter",megan);
-        makeBranch("Make up",megan);
-
-
-
-        // tree
-        tree = new TreeView<>(root);
-        tree.setShowRoot(false);
-        tree.getSelectionModel().selectedItemProperty()
-            .addListener((v,old_value,new_value) -> {
-                if(new_value != null)
-                    System.out.println(new_value.getValue());
-            });
 
 
         // Layout
-        StackPane layout = new StackPane();
-        layout.getChildren().add(tree);
+        VBox layout = new VBox();
+        layout.getChildren().addAll(table);
         // Scene
-        scene = new Scene(layout,300,350);
+        scene = new Scene(layout,600,350);
         window.setScene(scene);
         window.show();
     }
 
-    private TreeItem makeBranch(String title,TreeItem<String> parent){
-        TreeItem<String> item = new TreeItem<>(title);
-        item.setExpanded(true);
-        parent.getChildren().add(item);
+    // Get all of product
+    public ObservableList<Product> getProduct(){
+        ObservableList<Product> products = FXCollections.observableArrayList();
+        products.add(new Product("Laptop",500,20));
+        products.add(new Product("Bouncy Ball",2500,50));
+        products.add(new Product("Toilet",280,44));
+        products.add(new Product("Corn",600,36));
+        products.add(new Product("Movie Ticket",700,78));
 
-        return item;
 
+        return products;
     }
+
 
 
 
